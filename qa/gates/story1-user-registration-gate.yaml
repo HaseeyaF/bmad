@@ -1,0 +1,22 @@
+risk_summary:
+  totals:
+    critical: 1
+    high: 2
+    medium: 2
+    low: 2
+  highest:
+    id: SEC-001
+    score: 9
+    title: 'Insufficient Password Security Controls'
+  recommendations:
+    must_fix:
+      - 'Implement strong password policy with complexity requirements'
+      - 'Add rate limiting for registration attempts'
+      - 'Use secure password hashing (bcrypt/Argon2)'
+      - 'Implement proper email validation and verification'
+      - 'Secure user data storage with encryption'
+    monitor:
+      - 'Track failed registration attempts'
+      - 'Monitor registration performance metrics'
+      - 'Set up alerts for security violations'
+      - 'Implement comprehensive error logging'
