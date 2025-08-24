@@ -6,6 +6,7 @@ interface IUser {
   password: string;
   firstName: string;
   lastName: string;
+  phone?: string;
   createdAt: Date;
 }
 
@@ -34,6 +35,10 @@ const userSchema = new mongoose.Schema<IUserModel>({
   lastName: {
     type: String,
     required: true,
+    trim: true,
+  },
+  phone: {
+    type: String,
     trim: true,
   },
   createdAt: {
