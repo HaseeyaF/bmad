@@ -2,21 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import './RegisterForm.css';
+import './LoginForm.css';
 
-interface RegistrationFormData {
+interface LoginFormData {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
 }
 
-const RegisterForm: React.FC = () => {
-  const [formData, setFormData] = useState<RegistrationFormData>({
+const LoginForm: React.FC = () => {
+  const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
-    firstName: '',
-    lastName: '',
   });
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,48 +32,24 @@ const RegisterForm: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
       if (response.data.token) {
         login(response.data.token);
-        navigate('/dashboard');
+        navigate('/dashboard'); // Redirect to dashboard after login
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.response?.data?.message || 'Login failed');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="register-form">
-      <h2>Register</h2>
+    <div className="login-form">
+      <h2>Login</h2>
       {error && <div className="error-message">{error}</div>}
       
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -99,20 +71,19 @@ const RegisterForm: React.FC = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            minLength={8}
           />
         </div>
 
         <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Registering...' : 'Register'}
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
 
       <div className="register-link">
-        Already have an account? <Link to="/login">Login here</Link>
+        Don't have an account? <Link to="/register">Register here</Link>
       </div>
     </div>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
